@@ -1,14 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
   <title>AhorrAdas-E4</title>
 </head>
 <body>
-  <header></header>
-  
+  <header class="h-38 bg-[#212531] flex flex-col md:h-50">
+    <!-- .......................... LOGO .................... -->
+    <div class="flex">
+      <img class="w-16 rounded-full translate-x-4 translate-y-3 md:w-44 md:translate-x-6 md:translate-y-5" src="./style/images/1-logo-ahorradas.jpg" alt="logo de la aplicación" >
+      <span class="text-[#cacccd] -translate-x-1 translate-y-7 text-2xl md:-translate-x-6 md:translate-y-20 md:text-6xl">horrADAs</span>
+    </div>
+
+    <!-- .............. BUTTONS (hamburger/close) ............ -->
+    <div id="wrapper-buttons-menu" class="relative ml-[85%]">
+      <button id="button-hamburger-menu">
+        <img  src="./style/images/2-menu-hamburger.png" alt="icono menu hamburguesa" class="w-6 -translate-y-7 md:w-16 md:-translate-y-24">
+      </button>
+      
+      <button id="button-close-menu" class=" hidden" >
+        <img  src="./style/images/3-close-menu.png" alt="icono de cerrar" class=" w-4 -translate-y-7 translate-x-1  md:w-14 md:-translate-y-24 ">
+      </button>
+    </div>
+
+    <!-- .............. NAV / BUTTONS-VIEW-SECTIONS ............ -->
+    <nav id="pe" class= "hidden w-full">
+
+      <div id="wrapper-buttons-view-sections" class= "bg-[#ffe471] flex flex-col gap-2 pl-2 pt-3 pb-4 " >
+        
+        <button id="button-view-balance" class= "h-7 text-start bg-[#ffe471] border-none md:h-14 md:text-4xl md:pl-3 " >
+          <i class="fa-solid fa-money-bill-trend-up m-2 md:m-4 "></i>Balance
+        </button>
+
+        <button id="button-view-categories" class= "h-7 text-start bg-[#ffe471] border-none md:h-14 md:text-4xl md:pl-3" >
+          <i class="fa-solid fa-money-bill-trend-up m-2 md:m-4"></i>Categorias
+        </button>
+
+        <button id="button-view-report" class= "h-7 text-start bg-[#ffe471] border-none md:h-14 md:text-4xl md:pl-3" >
+          <i class="fa-solid fa-money-bill-trend-up m-2 md:m-4"></i>Reportes
+        </button>
+      </div>
+
+    </nav>
+  </header>
+
+  <script src="https://kit.fontawesome.com/e010b89ab9.js" crossorigin="anonymous"></script>
   <script src="main.js"></script>
 </body>
 </html>
