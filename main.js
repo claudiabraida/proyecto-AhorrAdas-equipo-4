@@ -65,6 +65,17 @@ $("#button-view-report").addEventListener("click", () => {
   hideElement([$("#view-balance-home"), $("#view-categories"), $("#new-operation")])
 })
 
+/* ...... button functionality panel-filters ...... */
+$("#button-hide-panel-filters").addEventListener("click", () => {
+  hideElement([$("#wrapper-panel-filters") ,$("#button-hide-panel-filters")])
+  showElement([$("#button-show-panel-filters")])
+})
+
+$("#button-show-panel-filters").addEventListener("click", () => {
+  showElement([$("#wrapper-panel-filters") ,$("#button-hide-panel-filters")])
+  hideElement([$("#button-show-panel-filters")])
+})
+
 /* ...... button functionality new operation ...... */
 $("#button-new-operation").addEventListener("click", () => {
   showElement([$("#new-operation")])
