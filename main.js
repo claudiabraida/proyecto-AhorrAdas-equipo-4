@@ -19,6 +19,10 @@ const showElement = (selectors) => {
   }
 };
 
+function t () {
+  
+}
+
 
 // $("#button-hamburger-menu").addEventListener("click", () => {
 //   hideElement([$("#button-hamburger-menu")])
