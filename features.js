@@ -2,7 +2,7 @@ const arrayNewCategories = []
 
 function readLocalStorage (key) {
   const datos = JSON.parse(localStorage.getItem(key))
-  return datos;
+  return datos ? datos : [];
 }
 
 function saveLocalStorage (key, data) {
@@ -10,9 +10,9 @@ function saveLocalStorage (key, data) {
 }
 
 function arrayCategories (array) {
-  arrayNewCategories.push(array)
-  saveLocalStorage("categoria", arrayNewCategories)
-  readLocalStorage(arrayNewCategories)
+ const cosa = readLocalStorage("categoria")
+  cosa.push(array)
+  saveLocalStorage("categoria", cosa)
 }
 // console.log(arrayNewCategories)
 
@@ -20,6 +20,7 @@ function arrayCategories (array) {
 export default {
   readLocalStorage,
   saveLocalStorage,
-  arrayCategories
+  arrayCategories,
+  arrayNewCategories
   
 }
