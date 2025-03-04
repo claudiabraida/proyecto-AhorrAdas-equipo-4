@@ -104,7 +104,6 @@ function mostrarCategorias () {
 
 function addCategory () {
   const newCategory = $inputnameCategories.value.trim().replace(/\s+/g, " ")
-  $filterCategories.innerHTML += `<option>${newCategory}</option>`
   $containerNameCategories.innerHTML += ` 
   <div class="flex justify-around p-2">
    <div class="min-w-12 ">
@@ -116,8 +115,11 @@ function addCategory () {
   clear($inputnameCategories)
   
   features.arrayCategories(newCategory)
-}
+   mostrarCategoriasDos ()
+   mostrarCategoriasNewOperation()
 
+}
+  
 // 💛💛💛💛💛💛💛💛
 function mostrarCategoriasDos () {
   const category = features.readLocalStorage("categoria") 
@@ -127,7 +129,6 @@ function mostrarCategoriasDos () {
   }
 }
 
-// FFunction to show categories in the new operation section
 function mostrarCategoriasNewOperation() {
   const category = features.readLocalStorage("categoria"); 
   const $selectCategoriesNewOperation = $("#categories-new-operation");
@@ -135,6 +136,7 @@ function mostrarCategoriasNewOperation() {
     $selectCategoriesNewOperation.innerHTML += `<option>${flor}</option>`;
   }
 }
+
 // esto aca funciona pero me deja de andar el bton 
 // function displayOperations() {
 //   const operations = features.readLocalStorage("operations") || [];
@@ -179,7 +181,7 @@ let dataOperations = []
 $("#form-create-new-operation").addEventListener("submit", (e) => {
   e.preventDefault()
   // const $operationsSection = $("#operations-section")
-
+ 
   const newOperationObject = {
     id : crypto.randomUUID(),
     description : e.target[0].value,
