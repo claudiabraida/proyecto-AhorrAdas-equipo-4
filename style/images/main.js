@@ -69,8 +69,6 @@ $("#button-new-operation").addEventListener("click", () => {
   hideElement([$("#view-balance-home"), $("#view-report")])
 })
 
-$("#form-create-new-operation").addEventListener("submit", (e) => {
-  e.preventDefault();})              //probaaaaaaaaar 
 
 /* ...... button functionality view categories ...... */
 const $inputnameCategories = $("#name-categories")
@@ -107,63 +105,40 @@ function addCategory () {
   $filterCategories.innerHTML += `<option>${newCategory}</option>`
   $containerNameCategories.innerHTML += ` 
   <div class="flex justify-around p-2">
-   <div class="min-w-12 ">
-      <p class= "bg-yellow-100">${newCategory}</p>
-   </div>
-    <button class="text-blue-700">Editar</button>
-    <button class="text-red-700">Eliminar</button>
+  <div class="min-w-12 ">
+  <p class= "bg-yellow-100">${newCategory}</p>
+  </div>
+  <button class="text-blue-700">Editar</button>
+  <button class="text-red-700">Eliminar</button>
   </div>`
   clear($inputnameCategories)
   
   features.arrayCategories(newCategory)
+  // features.arrayCategories(newCategory)
 }
 
 // 💛💛💛💛💛💛💛💛
+// mostar categorias en filtros 
+// ver si se puede agregar a esta funcion las categorias de nueva operación
 function mostrarCategoriasDos () {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
     $filterCategories.innerHTML += `<option>${flor}</option>`
 
   }
-}
 
-// FFunction to show categories in the new operation section
-function mostrarCategoriasNewOperation() {
-  const category = features.readLocalStorage("categoria"); 
-  const $selectCategoriesNewOperation = $("#categories-new-operation");
-  for (const flor of category) {
-    $selectCategoriesNewOperation.innerHTML += `<option>${flor}</option>`;
-  }
 }
-// esto aca funciona pero me deja de andar el bton 
-// function displayOperations() {
-//   const operations = features.readLocalStorage("operations") || [];
-//   const $operationsSection = $("#operations-section");
-//   operations.forEach(operation => {
-//     $operationsSection.innerHTML += `
-//       <div class="operation">
-//         <p>Description: ${operation.description}</p>
-//         <p>Amount: ${operation.amount}</p>
-//         <p>Type: ${operation.type}</p>
-//         <p>Categories: ${operation.categories}</p>
-//         <p>Date: ${operation.date}</p>
-//       </div>
-//     `;
-//   });
-// }
-
 
 /* ______________ EVENT ADD CATEGORY ______________ */
 $buttonAddCategories.addEventListener("click", addCategory)
 
 window.onload = () => {
-  const category = features.readLocalStorage("categoria") 
-  features.arrayNewCategories = category
-   mostrarCategorias ()
-   mostrarCategoriasDos()
-   mostrarCategoriasNewOperation();// Call to populate new operation categories
-  //  displayOperations(); // Call to display existing operations 
- };
+ const category = features.readLocalStorage("categoria") 
+ features.arrayNewCategories = category
+  mostrarCategorias ()
+  mostrarCategoriasDos()
+  
+}
 
 /* ____________________________***** new operation *****____________________________  */
 // const $inputDescriptionNewOperation = $("#description-new-operation")
@@ -191,11 +166,4 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
   
   dataOperations.push(newOperationObject)
   features.saveLocalStorage("operations", dataOperations)
-
-  // Optionally, clear the form fields after submission
-  e.target.reset();
-});
-
-
-
-   
+})
