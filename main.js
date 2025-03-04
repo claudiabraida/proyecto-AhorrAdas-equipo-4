@@ -69,8 +69,8 @@ $("#button-new-operation").addEventListener("click", () => {
   hideElement([$("#view-balance-home"), $("#view-report")])
 })
 
-$("#form-create-new-operation").addEventListener("submit", (e) => {
-  e.preventDefault();})              //probaaaaaaaaar 
+// $("#form-create-new-operation").addEventListener("submit", (e) => {
+//   e.preventDefault();})              //probaaaaaaaaar 
 
 /* ...... button functionality view categories ...... */
 const $inputnameCategories = $("#name-categories")
@@ -94,14 +94,13 @@ function clear (element) {
 function mostrarCategorias () {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
-  
     $containerNameCategories.innerHTML += ` 
     <div class="flex justify-around p-2">
-    <div class="min-w-12 ">
-    <p class= "bg-yellow-100">${flor}</p>
-    </div>
-    <button class="text-blue-700">Editar</button>
-    <button class="text-red-700">Eliminar</button>
+     <div class="min-w-12 ">
+       <p class= "bg-yellow-100">${flor}</p>
+     </div>
+     <button class="text-blue-700">Editar</button>
+     <button class="text-red-700">Eliminar</button>
     </div>`
   }
 
@@ -121,13 +120,13 @@ function addCategory () {
   clear($inputnameCategories)
   
   features.arrayCategories(newCategory)
-   mostrarCategoriasDos ()
-   mostrarCategoriasNewOperation()
+  mostrarCategoriasEnFiltros()
+  mostrarCategoriasNewOperation()
 
 }
   
 // 💛💛💛💛💛💛💛💛
-function mostrarCategoriasDos () {
+function mostrarCategoriasEnFiltros() {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
     $filterCategories.innerHTML += `<option>${flor}</option>`
@@ -161,17 +160,20 @@ function mostrarCategoriasNewOperation() {
 // }
 
 
+
+
 /* ______________ EVENT ADD CATEGORY ______________ */
 $buttonAddCategories.addEventListener("click", addCategory)
 
-window.onload = () => {
-  const category = features.readLocalStorage("categoria") 
-  features.arrayNewCategories = category
-   mostrarCategorias ()
-   mostrarCategoriasDos()
-   mostrarCategoriasNewOperation();// Call to populate new operation categories
-  //  displayOperations(); // Call to display existing operations 
- };
+// window.onload = () => {
+//   const category = features.readLocalStorage("categoria") 
+//   features.arrayNewCategories = category
+//    mostrarCategorias ()
+//    mostrarCategoriasDos()
+//    mostrarCategoriasNewOperation();// Call to populate new operation categories
+//    displayOperations(); 
+//   // // Call to display existing operations 
+//  };
 
 /* ____________________________***** form create new operation *****____________________________  */
 
@@ -198,9 +200,8 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
   e.target.reset();
 });
 
+/* mostrar panel de las operaciones */
 
-// esto aca funciona pero me deja de andar el bton
-// Mila 
 function displayOperations() {
   const operations = features.readLocalStorage("operations") || [];
   const $containerNewOperations = $("#container-new-operations")
@@ -218,15 +219,14 @@ function displayOperations() {
   });
 }
 
-
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 
   features.arrayNewCategories = category
   mostrarCategorias ()
-  mostrarCategoriasDos()
+  mostrarCategoriasEnFiltros()
   mostrarCategoriasNewOperation();// Call to populate new operation categories
   displayOperations();
-  //  // Call to display existing operations 
+   // Call to display existing operations 
 };
 
 
