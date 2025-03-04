@@ -1,4 +1,5 @@
 const arrayNewCategories = []
+const dataOperations = []
 
 function readLocalStorage (key) {
   const datos = JSON.parse(localStorage.getItem(key))
@@ -14,13 +15,25 @@ function arrayCategories (array) {
   cosa.push(array)
   saveLocalStorage("categoria", cosa)
 }
-// console.log(arrayNewCategories)
 
+function arrayDataOperations (array) {
+  const cosa = readLocalStorage("operations")
+   cosa.push(array)
+   saveLocalStorage("operations", cosa)
+ }
+
+// console.log(arrayNewCategories)
+// const objetoCategoria = {
+  
+//   id: crypto.randomUUID(),
+
+// }
 
 export default {
   readLocalStorage,
   saveLocalStorage,
   arrayCategories,
-  arrayNewCategories
-  
+  arrayNewCategories,
+  arrayDataOperations,
+  dataOperations
 }
