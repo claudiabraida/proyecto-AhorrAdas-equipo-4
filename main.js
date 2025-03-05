@@ -90,7 +90,7 @@ function displayCategories () {
     $containerNameCategories.innerHTML += ` 
     <div class="flex justify-around p-2">
      <div class="min-w-12 ">
-       <p class= "bg-yellow-100">${flor}</p>
+       <p class= "bg-yellow-100">${flor.name}</p>
      </div>
      <button class="text-blue-700">Editar</button>
      <button class="text-red-700">Eliminar</button>
@@ -149,7 +149,7 @@ function addCategory () {
 function displayCategoriesFilters() {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
-    $filterCategories.innerHTML += `<option>${flor}</option>`
+    $filterCategories.innerHTML += `<option>${flor.name}</option>`
   }
 }
 
@@ -157,7 +157,7 @@ function displayCategoriesNewOperation() {
   const category = features.readLocalStorage("categoria"); 
   const $selectCategoriesNewOperation = $("#categories-new-operation");
   for (const flor of category) {
-    $selectCategoriesNewOperation.innerHTML += `<option>${flor}</option>`;
+    $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
   }
 }
 
