@@ -84,7 +84,7 @@ const $containerNameCategories = $("#container-name-categories")
 function clear (element) {
   element.value = ""
 }
-function mostrarCategorias () {
+function displayCategories () {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
     $containerNameCategories.innerHTML += ` 
@@ -145,12 +145,11 @@ function addCategory () {
   calculateBalance();
 }
 
-// 💛💛💛💛💛💛💛💛 //
+/* 💛💛💛💛💛💛💛💛 */
 function displayCategoriesFilters() {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
-    $filterCategories.innerHTML += `<option>${flor.name}</option>`
-
+    $filterCategories.innerHTML += `<option>${flor}</option>`
   }
 }
 
@@ -158,8 +157,7 @@ function displayCategoriesNewOperation() {
   const category = features.readLocalStorage("categoria"); 
   const $selectCategoriesNewOperation = $("#categories-new-operation");
   for (const flor of category) {
-    $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
-
+    $selectCategoriesNewOperation.innerHTML += `<option>${flor}</option>`;
   }
 }
 
@@ -190,7 +188,7 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
   displayOperations()
   calculateBalance();
 
-  // optionally clear the form fields after submission
+  // Optionally, clear the form fields after submission
   e.target.reset();
 });
 
@@ -226,7 +224,7 @@ function displayOperations() {
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 
   features.arrayNewCategories = category
-  addCategory ()
+  displayCategories ()
   displayCategoriesFilters()
   displayCategoriesNewOperation();
   displayOperations();
