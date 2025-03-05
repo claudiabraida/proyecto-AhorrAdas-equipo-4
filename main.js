@@ -215,7 +215,7 @@ function displayOperations() {
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 
   features.arrayNewCategories = category
-  displayCategories()
+  displayCategories ()
   displayCategoriesFilters()
   displayCategoriesNewOperation();
   displayOperations();
