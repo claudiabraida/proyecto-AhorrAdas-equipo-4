@@ -170,7 +170,9 @@ $buttonAddCategories.addEventListener("click", addCategory)
 /* ******************************** OPERATIONS ******************************** */
 
 /* ____________________________***** form create new operation *****____________________________  */
-$("#form-create-new-operation").addEventListener("submit", (e) => {
+
+$("#form-create-new-operation").addEventListener("submit", (e) => { 
+
   e.preventDefault()
  
   const newOperationObject = {
@@ -191,6 +193,12 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
   // optionally clear the form fields after submission
   e.target.reset();
 });
+
+// $("#button-cancel-new-operation").addEventListener("click", (event) => {
+//   event.preventDefault();
+//   hideElement([$("#new-operation")]);
+//   showElement([$("#operations-section")]);
+// });
 
 /* mostrar panel de las operaciones */
 const $containerNewOperations = $("#container-new-operations")
@@ -213,6 +221,7 @@ function displayOperations() {
     `;
   });
 }
+
 
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 
