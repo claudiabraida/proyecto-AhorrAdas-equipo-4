@@ -87,8 +87,8 @@
         <button id="button-hide-panel-filters" class= "text-blue-600 relative translate-x-40 -translate-y-6 md:h-14 md:text-3xl md:pl-3 md:translate-x-[25rem] md:-translate-y-12" >Ocultar Filtros</button>
         <button id="button-show-panel-filters" class="hidden text-yellow-600 relative translate-x-40 -translate-y-6  md:h-14 md:text-3xl md:pl-3 md:translate-x-[25rem] md:-translate-y-12">Mostrar filtros</button>
         
+        <!-- wrapper swhow hide panel filters -->
         <div id="wrapper-panel-filters">
-          <!-- envolvente para mostrar y ocultar panel de filtro -->
           <!-- ------------------- filter-type ------------------- -->
           <div id="wrapper-filter-type" class="m-2 flex flex-col gap-2">
             <label for="filter-type">Tipo</label>
@@ -139,6 +139,9 @@
       <section id="operations-section" class="w-72 min-h-[40rem] bg-gray-100 rounded-xl shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] flex flex-col gap-7 p-2 mb-9 md:w-5/6 ">
         <h2 class="text-3xl font-medium pl-4 mt-3 md:text-4xl md:p-2 md:ml-2">Operaciones</h2>
         <button id="button-new-operation" class= "w-3/4 h-12 text-xl bg-yellow-400 ml-4  md:h-14 md:text-2xl md:pt-2 md:pb-8 md:pl-3 md:ml-2 md:pr-3 rounded-lg" >+ Nueva operación</button>
+        
+        <div id="container-new-operations" class="w-full min-h-72 bg-yellow-200 shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] m-auto"></div>
+
       </section>
         
     </section>
@@ -153,6 +156,7 @@
           <label for="description-new-operation" class="m-1">Descripción</label>
           <input type="text" name="description-new-operation" id="description-new-operation" class=" border-4 rounded-xl p-2">
         </div>
+
         <!-- --------------- amount-new-operation --------------- -->
         <div id="wrapper-amount-new-operation" class="m-2 flex flex-col ">
           <label for="amount-new-operation" class="m-1">Monto</label>
@@ -164,8 +168,7 @@
           <label for="type-new-operation" class="m-1">Tipo</label>
           <select name="type" id="type-new-operation" class="border-4 rounded-xl p-2">
             <option value="gasto">Gasto</option>
-              <option value="profits">Ganancia</option>
-
+            <option value="profits">Ganancia</option>
           </select>
         </div>
         
@@ -193,7 +196,7 @@
           <button id="button-add-new-operation" type="submit" class="w-24 h-12 bg-blue-300 border-none rounded-lg p-3">Agregar</button>
         </div>
             
-        <!-- conectado con boton de operations-view-sections -->
+        <!-- connected with operations-view-sections button -->
       </form>
     </section>
     
@@ -210,9 +213,7 @@
         <button id="add-categories" class="w-24 h-[42px] bg-blue-400 border-blue-300 rounded-lg">Agregar</button>
       </div>
 
-    <!-- ---------------- Categories will be added here ---------------- -->
-    <div id="container-new-operations"></div>
-
+      <!-- ---------------- Categories will be added here ---------------- -->
       <div  id="container-name-categories"></div>
 
     </section>

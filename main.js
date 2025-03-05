@@ -68,17 +68,22 @@ $("#button-new-operation").addEventListener("click", () => {
   hideElement([$("#view-balance-home"), $("#view-report")])
 })
 
+const $filterCategories = $("#filter-categories")
+
 /* ...... button functionality view categories ...... */
 const $inputnameCategories = $("#name-categories")
 const $buttonAddCategories = $("#add-categories")
-const $filterCategories = $("#filter-categories")
+
 
 const $containerNameCategories = $("#container-name-categories")
 
+
+
+
+/* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW CATEGORIES 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
 function clear (element) {
   element.value = ""
 }
-
 function mostrarCategorias () {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
@@ -93,26 +98,27 @@ function mostrarCategorias () {
   }
 }
 
-//this is the new funtion for calculate de balance
-
-function calculateBalance() {
+/* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW BALANCE HOME 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
+/* ******************************** BALANCE ******************************* */
+function calculateBalance() {//funtion for calculate de balance
   const operations = features.readLocalStorage("operations") || [];
 
   const { totalProfits, totalExpenses } = operations.reduce((acc, operation) => {
-      if (operation.type === 'profits') {
-          acc.totalProfits += operation.amount;
-      } else if (operation.type === 'expenses' || operation.type === 'gasto') {
-          acc.totalExpenses += operation.amount;
-      }
-      return acc;
+    if (operation.type === 'profits') {
+      acc.totalProfits += operation.amount;
+    } else if (operation.type === 'expenses' || operation.type === 'gasto') {
+      acc.totalExpenses += operation.amount;
+    }
+    return acc;
   }, { totalProfits: 0, totalExpenses: 0 });
-
+  
   const total = totalProfits - totalExpenses;
    $("#profits-amount").textContent = `+$${totalProfits}`;
    $("#expenses-amount").textContent = `-$${totalExpenses}`;
    $("#total-amount").textContent = `$${total}`;
 }
 
+/* ******************************** ADD CATEGORY ******************************* */
 function addCategory () {
   const newCategory = $inputnameCategories.value.trim().replace(/\s+/g, " ")
   const uniqueId = crypto.randomUUID(); // Generate a unique ID
@@ -124,29 +130,30 @@ function addCategory () {
 
   $containerNameCategories.innerHTML += ` 
   <div class="flex justify-around p-2" id="${uniqueId}">
-   <div class="min-w-12 ">
+    <div class="min-w-12 ">
       <p class= "bg-yellow-100">${newCategory}</p>
-   </div>
+    </div>
     <button class="text-blue-700">Editar</button>
     <button class="text-red-700">Eliminar</button>
   </div>`
+
   clear($inputnameCategories)
   
   features.arrayCategories(categoryObject)
-   mostrarCategoriasEnFiltros ()
-   mostrarCategoriasNewOperation()
-   calculateBalance();
+  displayCategoriesFilters ()
+  displayCategoriesNewOperation()
+  calculateBalance();
 }
 
 /* 💛💛💛💛💛💛💛💛 */
-function mostrarCategoriasEnFiltros() {
+function displayCategoriesFilters() {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
     $filterCategories.innerHTML += `<option>${flor}</option>`
   }
 }
 
-function mostrarCategoriasNewOperation() {
+function displayCategoriesNewOperation() {
   const category = features.readLocalStorage("categoria"); 
   const $selectCategoriesNewOperation = $("#categories-new-operation");
   for (const flor of category) {
@@ -156,6 +163,9 @@ function mostrarCategoriasNewOperation() {
 
 /* ______________ EVENT ADD CATEGORY ______________ */
 $buttonAddCategories.addEventListener("click", addCategory)
+
+
+/* ******************************** OPERATIONS ******************************** */
 
 /* ____________________________***** form create new operation *****____________________________  */
 $("#form-create-new-operation").addEventListener("submit", (e) => {
@@ -181,11 +191,11 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
 });
 
 /* mostrar panel de las operaciones */
+const $containerNewOperations = $("#container-new-operations")
 function displayOperations() {
   const operations = features.readLocalStorage("operations") || []; 
   console.log("Current operations:", operations); // Debugging log
-
-  const $containerNewOperations = $("#container-new-operations")
+  $containerNewOperations.innerHTML = ""
   operations.forEach(operation => {
     $containerNewOperations.innerHTML += `
       <div class="operation">
@@ -194,6 +204,9 @@ function displayOperations() {
         <p>Type: ${operation.type}</p>
         <p>Categories: ${operation.categories}</p>
         <p>Date: ${operation.date}</p>
+
+        <button class="text-blue-700">Editar</button>
+        <button class="text-red-700">Eliminar</button>
       </div>
     `;
   });
@@ -202,9 +215,9 @@ function displayOperations() {
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 
   features.arrayNewCategories = category
-  mostrarCategorias ()
-  mostrarCategoriasEnFiltros()
-  mostrarCategoriasNewOperation();
+  displayCategories ()
+  displayCategoriesFilters()
+  displayCategoriesNewOperation();
   displayOperations();
   calculateBalance();
 };
