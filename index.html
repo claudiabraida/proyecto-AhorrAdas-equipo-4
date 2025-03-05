@@ -61,19 +61,22 @@
         <!-- ------------------- profits ------------------- -->
         <div id="wrapper-profits" class="flex justify-between pr-3 mt-12">
           <p class=" text-2xl pl-2">Ganancias</p>
-          <span class="text-green-600 text-2xl font-medium">+$</span>
+          <span id="profits-amount" class="text-green-600 text-2xl font-medium">+$0</span>
+
         </div>
 
         <!-- ------------------- expenses ------------------- -->
         <div id="wrapper-expenses" class="flex justify-between pr-3 mt-5">
           <p class=" text-2xl pl-2">Gastos</p>
-          <span class="text-red-600 text-2xl font-medium">-$</span>
+          <span id="expenses-amount" class="text-red-600 text-2xl font-medium">-$0</span>
+
         </div>
 
         <!-- ------------------- total ------------------- -->
         <div id="wrapper-total" class="flex justify-between pr-3 mt-5">
           <p class=" text-2xl pl-2">Total</p>
-          <span class="text-2xl font-medium">$0</span>
+          <span id="total-amount" class="text-2xl font-medium">$0</span>
+
         </div>
         
       </section>
@@ -92,7 +95,8 @@
             <select name="" id="filter-type" class="border-4 rounded-xl p-2">
               <option value="">Todos</option>
               <option value="">Gasto</option>
-              <option value="">Ganancia</option>
+              <option value="profits">Ganancia</option>
+
             </select>
           </div>
           
@@ -135,13 +139,7 @@
       <section id="operations-section" class="w-72 min-h-[40rem] bg-gray-100 rounded-xl shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] flex flex-col gap-7 p-2 mb-9 md:w-5/6 ">
         <h2 class="text-3xl font-medium pl-4 mt-3 md:text-4xl md:p-2 md:ml-2">Operaciones</h2>
         <button id="button-new-operation" class= "w-3/4 h-12 text-xl bg-yellow-400 ml-4  md:h-14 md:text-2xl md:pt-2 md:pb-8 md:pl-3 md:ml-2 md:pr-3 rounded-lg" >+ Nueva operación</button>
-        
-        <div id="container-new-operations" class="w-full bg-yellow-100">
-
-        </div>
-       
       </section>
-
         
     </section>
     <!-- ____________________________***** new operation *****____________________________ -->
@@ -166,7 +164,8 @@
           <label for="type-new-operation" class="m-1">Tipo</label>
           <select name="type" id="type-new-operation" class="border-4 rounded-xl p-2">
             <option value="gasto">Gasto</option>
-            <option value="Ganancia">Ganancia</option>
+              <option value="profits">Ganancia</option>
+
           </select>
         </div>
         
@@ -211,7 +210,9 @@
         <button id="add-categories" class="w-24 h-[42px] bg-blue-400 border-blue-300 rounded-lg">Agregar</button>
       </div>
 
-      <!-- ---------------- Categories will be added here ---------------- -->
+    <!-- ---------------- Categories will be added here ---------------- -->
+    <div id="container-new-operations"></div>
+
       <div  id="container-name-categories"></div>
 
     </section>
