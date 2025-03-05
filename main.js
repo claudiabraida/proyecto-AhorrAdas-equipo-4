@@ -145,11 +145,12 @@ function addCategory () {
   calculateBalance();
 }
 
-/* 💛💛💛💛💛💛💛💛 */
+// 💛💛💛💛💛💛💛💛 //
 function displayCategoriesFilters() {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
-    $filterCategories.innerHTML += `<option>${flor}</option>`
+    $filterCategories.innerHTML += `<option>${flor.name}</option>`
+
   }
 }
 
@@ -157,7 +158,8 @@ function displayCategoriesNewOperation() {
   const category = features.readLocalStorage("categoria"); 
   const $selectCategoriesNewOperation = $("#categories-new-operation");
   for (const flor of category) {
-    $selectCategoriesNewOperation.innerHTML += `<option>${flor}</option>`;
+    $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
+
   }
 }
 
@@ -186,7 +188,7 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
   displayOperations()
   calculateBalance();
 
-  // Optionally, clear the form fields after submission
+  // optionally clear the form fields after submission
   e.target.reset();
 });
 
