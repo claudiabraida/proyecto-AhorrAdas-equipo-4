@@ -84,7 +84,7 @@ const $containerNameCategories = $("#container-name-categories")
 function clear (element) {
   element.value = ""
 }
-function mostrarCategorias () {
+function displayCategories () {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
     $containerNameCategories.innerHTML += ` 
@@ -215,7 +215,7 @@ function displayOperations() {
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 
   features.arrayNewCategories = category
-  addCategory ()
+  displayCategories()
   displayCategoriesFilters()
   displayCategoriesNewOperation();
   displayOperations();
