@@ -62,41 +62,37 @@ $("#button-show-panel-filters").addEventListener("click", () => {
   hideElement([$("#button-show-panel-filters")])
 })
 
-/* ...... button functionality new operation ...... */
+/* ...... EVENT FUNCIONALITY RETURN NEW OPERATION ...... */
 $("#button-new-operation").addEventListener("click", () => {
   showElement([$("#new-operation")])
   hideElement([$("#view-balance-home"), $("#view-report")])
 })
+/* ...... button functionality add new operation ...... */
+$("#form-create-new-operation").addEventListener("submit", (e) => {
+  e.preventDefault()
+  hideElement([ $("#new-operation")])
+  showElement([$("#operations-section"), $("#view-balance-home")])
+
+})
+
+/* ...... button functionality cancel new operation ...... */
+$("#button-cancel-new-operation").addEventListener("click", (e) => {
+  e.preventDefault();
+  hideElement([ $("#new-operation")])
+  showElement([$("#operations-section"), $("#view-balance-home")])
+});
+
+
 
 const $filterCategories = $("#filter-categories")
 
-/* ...... button functionality view categories ...... */
+/* ......ELEMENTS HTML FUNCIONALITY VIEW CATEGORIES ...... */
+const $containerNameCategories = $("#container-name-categories")
 const $inputnameCategories = $("#name-categories")
 const $buttonAddCategories = $("#add-categories")
+const $containerNewOperations = $("#container-new-operations")
 
 
-const $containerNameCategories = $("#container-name-categories")
-
-
-
-
-/* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW CATEGORIES 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
-function clear (element) {
-  element.value = ""
-}
-function displayCategories () {
-  const category = features.readLocalStorage("categoria") 
-  for (const flor of category) {
-    $containerNameCategories.innerHTML += ` 
-    <div class="flex justify-around p-2">
-     <div class="min-w-12 ">
-       <p class= "bg-yellow-100">${flor.name}</p>
-     </div>
-     <button class="text-blue-700">Editar</button>
-     <button class="text-red-700">Eliminar</button>
-    </div>`
-  }
-}
 
 /* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW BALANCE HOME 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
 /* ******************************** BALANCE ******************************* */
@@ -118,25 +114,32 @@ function calculateBalance() {//funtion for calculate de balance
    $("#total-amount").textContent = `$${total}`;
 }
 
+
+/* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW CATEGORIES 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
+function clear (element) {
+  element.value = ""
+}
+
 /* ******************************** ADD CATEGORY ******************************* */
+
 function addCategory () {
   const newCategory = $inputnameCategories.value.trim().replace(/\s+/g, " ")
   const uniqueId = crypto.randomUUID(); // Generate a unique ID
-
+  
   const categoryObject = {
     id: uniqueId,
     name: newCategory
   };
-
+  
   $containerNameCategories.innerHTML += ` 
   <div class="flex justify-around p-2" id="${uniqueId}">
-    <div class="min-w-12 ">
-      <p class= "bg-yellow-100">${newCategory}</p>
-    </div>
-    <button class="text-blue-700">Editar</button>
-    <button class="text-red-700">Eliminar</button>
+  <div class="min-w-12 ">
+  <p class= "bg-yellow-100">${newCategory}</p>
+  </div>
+  <button class="text-blue-700">Editar</button>
+  <button class="text-red-700">Eliminar</button>
   </div>`
-
+  
   clear($inputnameCategories)
   
   features.arrayCategories(categoryObject)
@@ -145,7 +148,24 @@ function addCategory () {
   calculateBalance();
 }
 
-/* 💛💛💛💛💛💛💛💛 */
+/* ______________ EVENT ADD CATEGORY ______________ */
+$buttonAddCategories.addEventListener("click", addCategory)
+
+/* ................ DISPLAY ON SCREEN ................ */
+function displayCategories () {
+  const category = features.readLocalStorage("categoria") 
+  for (const flor of category) {
+    $containerNameCategories.innerHTML += ` 
+    <div class="flex justify-around p-2">
+     <div class="min-w-12 ">
+       <p class= "bg-yellow-100">${flor.name}</p>
+     </div>
+     <button class="text-blue-700">Editar</button>
+     <button class="text-red-700">Eliminar</button>
+    </div>`
+  }
+}
+
 function displayCategoriesFilters() {
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
@@ -153,17 +173,15 @@ function displayCategoriesFilters() {
   }
 }
 
+
+const $selectCategoriesNewOperation = $("#categories-new-operation");
 function displayCategoriesNewOperation() {
+  $selectCategoriesNewOperation.innerHTML = ""
   const category = features.readLocalStorage("categoria"); 
-  const $selectCategoriesNewOperation = $("#categories-new-operation");
   for (const flor of category) {
     $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
   }
 }
-
-/* ______________ EVENT ADD CATEGORY ______________ */
-$buttonAddCategories.addEventListener("click", addCategory)
-
 
 /* ******************************** OPERATIONS ******************************** */
 
@@ -192,21 +210,16 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
   e.target.reset();
 });
 
-// $("#button-cancel-new-operation").addEventListener("click", (event) => {
-//   event.preventDefault();
-//   hideElement([$("#new-operation")]);
-//   showElement([$("#operations-section")]);
-// });
 
-/* mostrar panel de las operaciones */
-const $containerNewOperations = $("#container-new-operations")
+/* show in operations section */
 function displayOperations() {
   const operations = features.readLocalStorage("operations") || []; 
   console.log("Current operations:", operations); // Debugging log
   $containerNewOperations.innerHTML = ""
+
   operations.forEach(operation => {
     $containerNewOperations.innerHTML += `
-      <div class="operation">
+      <div class="rounded-lg bg-[#f6f7fa] shadow-[-3px_-3px_20px_3px_rgb(0,0,0,0.4)] p-9 m-4 operation">
         <p>Description: ${operation.description}</p>
         <p>Amount: ${operation.amount}</p>
         <p>Type: ${operation.type}</p>
@@ -219,7 +232,6 @@ function displayOperations() {
     `;
   });
 }
-
 
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 

@@ -22,13 +22,6 @@ function arrayDataOperations (array) {
    saveLocalStorage("operations", cosa)
  }
 
-// console.log(arrayNewCategories)
-// const objetoCategoria = {
-  
-//   id: crypto.randomUUID(),
-
-// }
-
 export default {
   readLocalStorage,
   saveLocalStorage,
