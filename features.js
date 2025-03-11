@@ -31,6 +31,13 @@ function deleteOperation (idOperation) {
   return filterDeleteOperation
 }
 
+// New function to delete a category
+function deleteCategory(categoryId) {
+  const categories = readLocalStorage("categoria");
+  const updatedCategories = categories.filter(category => category.id !== categoryId);
+  saveLocalStorage("categoria", updatedCategories);
+}
+
 export default {
   readLocalStorage,
   saveLocalStorage,
@@ -38,5 +45,6 @@ export default {
   arrayNewCategories,
   arrayDataOperations,
   dataOperations,
-  deleteOperation
+  deleteOperation,
+  deleteCategory
 }

@@ -252,15 +252,29 @@ function addEventEditDelete () {
   })
 })
 
+  // Add event listeners for category delete buttons
+  const $$arrayCategoryButtonsDelete = $$(".text-red-700");
+  $$arrayCategoryButtonsDelete.forEach(button => {
+    button.addEventListener("click", (e) => {
+      const categoryId = e.target.parentElement.id; 
+      const categoryElement = document.getElementById(categoryId);
+      if (categoryElement) {
+        categoryElement.remove(); 
+      features.deleteCategory(categoryId); 
+      features.updateLocalStorage(); 
+      }
+    });
+  });
 }
 
+
 window.onload = () => {
-  const category = features.readLocalStorage("categoria") 
-  features.arrayNewCategories = category
-  displayCategories ()
-  displayCategoriesFilters()
+  const category = features.readLocalStorage("categoria");
+  features.arrayNewCategories = category;
+  displayCategories();
+  displayCategoriesFilters();
   displayCategoriesNewOperation();
-  displayOperations()
-  calculateBalance()
-  addEventEditDelete()
+  displayOperations();
+  calculateBalance();
+  addEventEditDelete();
 };
