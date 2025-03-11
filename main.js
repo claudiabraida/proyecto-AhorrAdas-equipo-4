@@ -112,6 +112,7 @@ function calculateBalance() {//funtion for calculate de balance
    $("#profits-amount").textContent = `+$${totalProfits}`;
    $("#expenses-amount").textContent = `-$${totalExpenses}`;
    $("#total-amount").textContent = `$${total}`;
+   addEventEditDelete()
 }
 
 
@@ -214,7 +215,7 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
 /* show in operations section */
 function displayOperations() {
   const operations = features.readLocalStorage("operations") || []; 
-  console.log("Current operations:", operations); // Debugging log
+  // console.log("Current operations:", operations); // Debugging log
   $containerNewOperations.innerHTML = ""
 
   operations.forEach(operation => {
@@ -226,11 +227,31 @@ function displayOperations() {
         <p>Categories: ${operation.categories}</p>
         <p>Date: ${operation.date}</p>
 
-        <button class="text-blue-700">Editar</button>
-        <button class="text-red-700">Eliminar</button>
+        <div class = "flex gap-9">
+         <button id ="${operation.id}"class=" button-edit text-blue-700 rounded-xl border border-blue-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-blue-100 mt-3 p-2">Editar</button>
+         <button id ="${operation.id}"class=" button-delete text-red-700 rounded-xl border border-red-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-red-100 mt-3 p-2">Eliminar</button>
+        </div>
       </div>
     `;
   });
+}
+
+/* ......... edit - delete operations ......... */
+addEventEditDelete()
+
+function addEventEditDelete () {
+  const $$arrayButonsEdit = $$(".button-edit")
+  const $$arrayButonsDelete = $$(".button-delete")
+
+ $$arrayButonsDelete.forEach(button => {
+  
+  button.addEventListener("click", (e) => {
+   const arrayDeleteOperations = features.deleteOperation(e.target.id)
+   displayOperations(arrayDeleteOperations)
+   calculateBalance()
+  })
+})
+
 }
 
 window.onload = () => {
@@ -239,6 +260,7 @@ window.onload = () => {
   displayCategories ()
   displayCategoriesFilters()
   displayCategoriesNewOperation();
-  displayOperations();
-  calculateBalance();
+  displayOperations()
+  calculateBalance()
+  addEventEditDelete()
 };

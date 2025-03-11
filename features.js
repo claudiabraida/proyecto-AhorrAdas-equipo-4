@@ -20,7 +20,16 @@ function arrayDataOperations (array) {
   const cosa = readLocalStorage("operations")
    cosa.push(array)
    saveLocalStorage("operations", cosa)
- }
+}
+
+
+function deleteOperation (idOperation) {
+  const data = readLocalStorage("operations")
+  const filterDeleteOperation = data.filter(operation => operation.id !== idOperation)
+  saveLocalStorage("operations", filterDeleteOperation)
+
+  return filterDeleteOperation
+}
 
 export default {
   readLocalStorage,
@@ -28,5 +37,6 @@ export default {
   arrayCategories,
   arrayNewCategories,
   arrayDataOperations,
-  dataOperations
+  dataOperations,
+  deleteOperation
 }
