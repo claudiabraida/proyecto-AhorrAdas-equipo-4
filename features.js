@@ -38,6 +38,17 @@ function deleteCategory(categoryId) {
   saveLocalStorage("categoria", updatedCategories);
 }
 
+function updateCategory(categoryId, newCategoryName) {
+  const categories = readLocalStorage("categoria");
+  const updatedCategories = categories.map(category => {
+    if (category.id === categoryId) {
+      return { ...category, name: newCategoryName }; 
+    }
+    return category;
+  });
+  saveLocalStorage("categoria", updatedCategories);
+}
+
 export default {
   readLocalStorage,
   saveLocalStorage,
@@ -46,5 +57,6 @@ export default {
   arrayDataOperations,
   dataOperations,
   deleteOperation,
-  deleteCategory
+  deleteCategory,
+  updateCategory
 }

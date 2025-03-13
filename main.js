@@ -1,8 +1,8 @@
-import features from "./features.js"
+import features from "./features.js";
 
 /* Functions: HTML element selectors */
 const $ = element => document.querySelector(element);
-const $$ = element => document.querySelectorAll(element)
+const $$ = element => document.querySelectorAll(element);
 
 const showOrHideElement = (selectors) => {
   for (const selector of selectors) {
@@ -26,77 +26,73 @@ const showElement = (selectors) => {
 
 /* ........... buttons header menu ........... */
 $("#button-hamburger-menu").addEventListener("click", () => {
-  showOrHideElement([$("#button-hamburger-menu")])
-  showOrHideElement([$("nav"), $("#button-close-menu")])
-})
+  showOrHideElement([$("#button-hamburger-menu")]);
+  showOrHideElement([$("nav"), $("#button-close-menu")]);
+});
 
 $("#button-close-menu").addEventListener("click", () => {
-  showOrHideElement([$("#button-close-menu"), $("nav")])
-  showOrHideElement([$("#button-hamburger-menu")])
-})
+  showOrHideElement([$("#button-close-menu"), $("nav")]);
+  showOrHideElement([$("#button-hamburger-menu")]);
+});
 
 /* ........... buttons header nav ........... */
 $("#button-view-balance").addEventListener("click", () => {
-  showElement([$("#view-balance-home")])
-  hideElement([$("#view-categories"), $("#view-report"), $("#new-operation")])
-})
+  showElement([$("#view-balance-home")]);
+  hideElement([$("#view-categories"), $("#view-report"), $("#new-operation")]);
+});
 
 $("#button-view-categories").addEventListener("click", () => {
-  showElement([$("#view-categories")])
-  hideElement([$("#view-balance-home"), $("#view-report"), $("#new-operation")])
-})
+  showElement([$("#view-categories")]);
+  hideElement([$("#view-balance-home"), $("#view-report"), $("#new-operation")]);
+});
 
 $("#button-view-report").addEventListener("click", () => {
-  showElement([$("#view-report")])
-  hideElement([$("#view-balance-home"), $("#view-categories"), $("#new-operation")])
-})
+  showElement([$("#view-report")]);
+  hideElement([$("#view-balance-home"), $("#view-categories"), $("#new-operation")]);
+});
 
 /* ...... button functionality panel-filters ...... */
 $("#button-hide-panel-filters").addEventListener("click", () => {
-  hideElement([$("#wrapper-panel-filters") ,$("#button-hide-panel-filters")])
-  showElement([$("#button-show-panel-filters")])
-})
+  hideElement([$("#wrapper-panel-filters"), $("#button-hide-panel-filters")]);
+  showElement([$("#button-show-panel-filters")]);
+});
 
 $("#button-show-panel-filters").addEventListener("click", () => {
-  showElement([$("#wrapper-panel-filters") ,$("#button-hide-panel-filters")])
-  hideElement([$("#button-show-panel-filters")])
-})
+  showElement([$("#wrapper-panel-filters"), $("#button-hide-panel-filters")]);
+  hideElement([$("#button-show-panel-filters")]);
+});
 
 /* ...... EVENT FUNCIONALITY RETURN NEW OPERATION ...... */
 $("#button-new-operation").addEventListener("click", () => {
-  showElement([$("#new-operation")])
-  hideElement([$("#view-balance-home"), $("#view-report")])
-})
+  showElement([$("#new-operation")]);
+  hideElement([$("#view-balance-home"), $("#view-report")]);
+});
+
 /* ...... button functionality add new operation ...... */
 $("#form-create-new-operation").addEventListener("submit", (e) => {
-  e.preventDefault()
-  hideElement([ $("#new-operation")])
-  showElement([$("#operations-section"), $("#view-balance-home")])
-
-})
+  e.preventDefault();
+  hideElement([$("#new-operation")]);
+  showElement([$("#operations-section"), $("#view-balance-home")]);
+});
 
 /* ...... button functionality cancel new operation ...... */
 $("#button-cancel-new-operation").addEventListener("click", (e) => {
   e.preventDefault();
-  hideElement([ $("#new-operation")])
-  showElement([$("#operations-section"), $("#view-balance-home")])
+  hideElement([$("#new-operation")]);
+  showElement([$("#operations-section"), $("#view-balance-home")]);
 });
 
-
-
-const $filterCategories = $("#filter-categories")
+const $filterCategories = $("#filter-categories");
 
 /* ......ELEMENTS HTML FUNCIONALITY VIEW CATEGORIES ...... */
-const $containerNameCategories = $("#container-name-categories")
-const $inputnameCategories = $("#name-categories")
-const $buttonAddCategories = $("#add-categories")
-const $containerNewOperations = $("#container-new-operations")
-
-
+const $containerNameCategories = $("#container-name-categories");
+const $inputnameCategories = $("#name-categories");
+const $buttonAddCategories = $("#add-categories");
+const $containerNewOperations = $("#container-new-operations");
 
 /* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW BALANCE HOME 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
 /* ******************************** BALANCE ******************************* */
-function calculateBalance() {//funtion for calculate de balance
+function calculateBalance() { //function for calculate the balance
   const operations = features.readLocalStorage("operations") || [];
 
   const { totalProfits, totalExpenses } = operations.reduce((acc, operation) => {
@@ -107,31 +103,30 @@ function calculateBalance() {//funtion for calculate de balance
     }
     return acc;
   }, { totalProfits: 0, totalExpenses: 0 });
-  
+
   const total = totalProfits - totalExpenses;
-   $("#profits-amount").textContent = `+$${totalProfits}`;
-   $("#expenses-amount").textContent = `-$${totalExpenses}`;
-   $("#total-amount").textContent = `$${total}`;
-   addEventEditDelete()
+  $("#profits-amount").textContent = `+$${totalProfits}`;
+  $("#expenses-amount").textContent = `-$${totalExpenses}`;
+  $("#total-amount").textContent = `$${total}`;
+  addEventEditDelete();
 }
 
-
 /* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW CATEGORIES 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
-function clear (element) {
-  element.value = ""
+function clear(element) {
+  element.value = "";
 }
 
 /* ******************************** ADD CATEGORY ******************************* */
 
-function addCategory () {
-  const newCategory = $inputnameCategories.value.trim().replace(/\s+/g, " ")
+function addCategory() {
+  const newCategory = $inputnameCategories.value.trim().replace(/\s+/g, " ");
   const uniqueId = crypto.randomUUID(); // Generate a unique ID
-  
+
   const categoryObject = {
     id: uniqueId,
     name: newCategory
   };
-  
+
   $containerNameCategories.innerHTML += ` 
   <div class="flex justify-around p-2" id="${uniqueId}">
   <div class="min-w-12 ">
@@ -139,46 +134,48 @@ function addCategory () {
   </div>
   <button class="text-blue-700">Editar</button>
   <button class="text-red-700">Eliminar</button>
-  </div>`
-  
-  clear($inputnameCategories)
-  
-  features.arrayCategories(categoryObject)
-  displayCategoriesFilters ()
-  displayCategoriesNewOperation()
+  </div>`;
+
+  clear($inputnameCategories);
+
+  features.arrayCategories(categoryObject);
+  displayCategoriesFilters();
+  displayCategoriesNewOperation();
   calculateBalance();
 }
 
 /* ______________ EVENT ADD CATEGORY ______________ */
-$buttonAddCategories.addEventListener("click", addCategory)
+$buttonAddCategories.addEventListener("click", addCategory);
 
 /* ................ DISPLAY ON SCREEN ................ */
-function displayCategories () {
-  const category = features.readLocalStorage("categoria") 
+function displayCategories() {
+  const category = features.readLocalStorage("categoria");
+  $containerNameCategories.innerHTML = ""; // Clear previous categories
   for (const flor of category) {
     $containerNameCategories.innerHTML += ` 
-    <div class="flex justify-around p-2">
+    <div class="flex justify-around p-2" id="${flor.id}">
      <div class="min-w-12 ">
        <p class= "bg-yellow-100">${flor.name}</p>
      </div>
      <button class="text-blue-700">Editar</button>
      <button class="text-red-700">Eliminar</button>
-    </div>`
+    </div>`;
   }
+  console.log("Categories displayed:", category); // Debugging log
+  addEventEditDelete(); // Reattach event listeners after displaying categories
 }
 
 function displayCategoriesFilters() {
-  const category = features.readLocalStorage("categoria") 
+  const category = features.readLocalStorage("categoria");
   for (const flor of category) {
-    $filterCategories.innerHTML += `<option>${flor.name}</option>`
+    $filterCategories.innerHTML += `<option>${flor.name}</option>`;
   }
 }
 
-
 const $selectCategoriesNewOperation = $("#categories-new-operation");
 function displayCategoriesNewOperation() {
-  $selectCategoriesNewOperation.innerHTML = ""
-  const category = features.readLocalStorage("categoria"); 
+  $selectCategoriesNewOperation.innerHTML = "";
+  const category = features.readLocalStorage("categoria");
   for (const flor of category) {
     $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
   }
@@ -188,35 +185,32 @@ function displayCategoriesNewOperation() {
 
 /* ____________________________***** form create new operation *****____________________________  */
 
-$("#form-create-new-operation").addEventListener("submit", (e) => { 
+$("#form-create-new-operation").addEventListener("submit", (e) => {
+  e.preventDefault();
 
-  e.preventDefault()
- 
   const newOperationObject = {
-    id : crypto.randomUUID(),
-    description : e.target[0].value,
-    amount :Number(e.target[1].value),
-    type : e.target[2].value,
-    categories : e.target[3].value,
-    date : dayjs(e.target[4].value).format("DD-MM-YYYY"),
-  }
-  
+    id: crypto.randomUUID(),
+    description: e.target[0].value,
+    amount: Number(e.target[1].value),
+    type: e.target[2].value,
+    categories: e.target[3].value,
+    date: dayjs(e.target[4].value).format("DD-MM-YYYY"),
+  };
+
   features.arrayDataOperations(newOperationObject);
   console.log("New operation added:", newOperationObject); // Debugging log
 
-  displayOperations()
+  displayOperations();
   calculateBalance();
 
   // Optionally, clear the form fields after submission
   e.target.reset();
 });
 
-
 /* show in operations section */
 function displayOperations() {
-  const operations = features.readLocalStorage("operations") || []; 
-  // console.log("Current operations:", operations); // Debugging log
-  $containerNewOperations.innerHTML = ""
+  const operations = features.readLocalStorage("operations") || [];
+  $containerNewOperations.innerHTML = "";
 
   operations.forEach(operation => {
     $containerNewOperations.innerHTML += `
@@ -237,36 +231,66 @@ function displayOperations() {
 }
 
 /* ......... edit - delete operations ......... */
-addEventEditDelete()
+addEventEditDelete();
 
-function addEventEditDelete () {
-  const $$arrayButonsEdit = $$(".button-edit")
-  const $$arrayButonsDelete = $$(".button-delete")
+function addEventEditDelete() {
+  const $$arrayButonsEdit = $$(".button-edit");
+  const $$arrayButonsDelete = $$(".button-delete");
 
- $$arrayButonsDelete.forEach(button => {
-  
-  button.addEventListener("click", (e) => {
-   const arrayDeleteOperations = features.deleteOperation(e.target.id)
-   displayOperations(arrayDeleteOperations)
-   calculateBalance()
-  })
-})
+  $$arrayButonsDelete.forEach(button => {
+    button.addEventListener("click", (e) => {
+      const arrayDeleteOperations = features.deleteOperation(e.target.id);
+      displayOperations(arrayDeleteOperations);
+      calculateBalance();
+    });
+  });
 
-  // Add event listeners for category delete buttons
   const $$arrayCategoryButtonsDelete = $$(".text-red-700");
   $$arrayCategoryButtonsDelete.forEach(button => {
     button.addEventListener("click", (e) => {
-      const categoryId = e.target.parentElement.id; 
+      const categoryId = e.target.parentElement.id;
       const categoryElement = document.getElementById(categoryId);
       if (categoryElement) {
-        categoryElement.remove(); 
-      features.deleteCategory(categoryId); 
-      features.updateLocalStorage(); 
+        categoryElement.remove();
+        features.deleteCategory(categoryId);
       }
     });
   });
-}
+ 
+  const $$arrayCategoryButtonsEdit = $$(".text-blue-700");
+  $$arrayCategoryButtonsEdit.forEach(button => {
+    button.addEventListener("click", (e) => {
+      const categoryId = e.target.parentElement.id; 
+      const categoryElement = document.getElementById(categoryId);
+      const categoryName = categoryElement.querySelector('p').textContent; 
 
+      
+      $("#view-categories").classList.add("hidden"); 
+      $("#edit-category-section").classList.remove("hidden"); 
+      $("#edit-category-name").value = categoryName; 
+
+      $("#save-category").setAttribute("data-category-id", categoryId);
+      //console.log("Edit button clicked for category ID:", categoryId);
+    });
+  });
+
+  $("#save-category").addEventListener("click", () => {
+    const categoryId = $("#save-category").getAttribute("data-category-id");
+    const newCategoryName = $("#edit-category-name").value.trim();
+
+   
+    features.updateCategory(categoryId, newCategoryName); 
+    displayCategories(); 
+    $("#edit-category-section").classList.add("hidden"); 
+    $("#view-categories").classList.remove("hidden"); 
+    //console.log("Category updated:", categoryId, newCategoryName);
+  });
+
+  $("#cancel-edit").addEventListener("click", () => {
+    $("#edit-category-section").classList.add("hidden");
+    $("#view-categories").classList.remove("hidden"); 
+  });
+}
 
 window.onload = () => {
   const category = features.readLocalStorage("categoria");
