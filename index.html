@@ -103,7 +103,7 @@
           <div id="wrapper-filter-categories" class="m-2 flex flex-col gap-2">
             <label for="filter-categories">Categorías</label>
             <select id="filter-categories" name="filter" class="border-4 rounded-xl p-2">
-              <option class="text-ml bg-yellow-100" value="all">Todas</option>
+              <!-- <option class="text-ml bg-yellow-100" value="all">Todas</option> -->
               <!-- <option class="text-ml bg-yellow-100" value="food">Comida</option>
               <option class="text-ml bg-yellow-100" value="services">Servicios</option>
               <option class="text-ml bg-yellow-100" value="outings">Salidas</option>
@@ -139,14 +139,14 @@
         <h2 class="text-3xl font-medium pl-4 mt-3 md:text-4xl md:p-2 md:ml-2">Operaciones</h2>
         <button id="button-new-operation" class= "w-3/4 h-12 text-xl bg-yellow-400 ml-4  md:h-14 md:text-2xl md:pt-2 md:pb-8 md:pl-3 md:ml-2 md:pr-3 rounded-lg" >+ Nueva operación</button>
         
-        <div id="container-new-operations" class="w-full min-h-72 bg-gray-100 shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] m-auto"></div>
-        <!-- <div id="container-new-operations" class="w-full min-h-72 bg-yellow-200 shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] m-auto"></div> -->
+        <!-- ------------- CONTAINER NEW OPERATION (OPERATIONS WILL BE ADDED HERE) ------------- -->
+        <div id="container-new-operations" class="w-full min-h-72 bg-gray-100 shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)]"></div>
 
       </section>
         
     </section>
-    <!-- ____________________________***** new operation *****____________________________ -->
-
+    
+    <!-- ____________________________***** NEW OPERATION (FORM CREATE) *****____________________________ -->
     <section id="new-operation" class="hidden w-72 h-[40rem] bg-gray-100 rounded-xl shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] p-2 mt-16 md:w-5/6 ">
       <h2 class="text-3xl font-medium pl-2 mt-3">Nueva operación</h2>
       <form id="form-create-new-operation" action="">
@@ -199,7 +199,60 @@
         <!-- connected with operations-view-sections button -->
       </form>
     </section>
-    
+
+    <!-- ____________________________***** EDIT OPERATION (FORM EDIT) *****____________________________ -->
+    <section id="edit-operation" class="hidden w-72 h-[40rem] bg-gray-100 rounded-xl shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] p-2 mt-16 md:w-5/6 ">
+      <h2 class="text-3xl font-medium pl-2 mt-3">Editar operación</h2>
+      <form id="form-edit-operation" action="">
+
+        <!-- ------------- edit description-operation ------------- -->
+        <div id="wrapper-edit-description-operation" class="m-2 flex flex-col">
+          <label for="edit-description-operation" class="m-1">Descripción</label>
+          <input type="text" name="edit-description-operation" id="edit-description-operation" class=" border-4 rounded-xl p-2">
+        </div>
+
+        <!-- --------------- edit amount-operation --------------- -->
+        <div id="wrapper-edit-amount-operation" class="m-2 flex flex-col ">
+          <label for="edit-amount-operation" class="m-1">Monto</label>
+          <input type="number" name="edit-amount-operation" id="edit-amount-operation" class=" border-4 rounded-xl p-2">
+        </div>
+
+        <!-- ---------------- edit type-operation ---------------- -->
+        <div id="wrapper-type-new-operation" class="m-2 flex flex-col">
+          <label for="edit-type-operation" class="m-1">Tipo</label>
+          <select name="edit-type-operation" id="edit-type-operation" class="border-4 rounded-xl p-2">
+            <option value="gasto">Gasto</option>
+            <option value="ganancia">Ganancia</option>
+          </select>
+        </div>
+        
+        <!-- --------------- edit categories-operation --------------- -->
+        <div id="wrapper-edit-categories-operation" class="m-2 flex flex-col ">
+          <label for="edit-categories-operation" class="m-1">Categorías</label>
+          <select name="edit-categories-operation" id="edit-categories-operation" class="border-4 rounded-xl p-2">
+            <!-- <option value="food">Comida</option>
+            <option value="services">Servicios</option>
+            <option value="outings">Salidas</option>
+            <option value="education">educación</option>
+            <option value="transport">transporte</option>
+            <option value="work">Trabajo</option> -->
+          </select>
+        </div>
+            
+        <!-- ------------- edit date-operation ------------- -->
+        <div id="wrapper-edit-date-operation" class="m-2 flex flex-col ">
+          <label for="edit-date-operation" class="m-1">Fecha</label>
+          <input type="date" name="edit-date-operation" id="edit-date-operation" class=" border-4 rounded-xl p-2" >
+        </div>
+        
+        <div id="wrapper-edit-buttons-operation" class="flex gap-3 mt-10 ml-14">
+          <button id="edit-button-cancel-operation" type="button" class="w-24  h-12 bg-gray-300 border-none rounded-lg p-3">Cancelar</button>
+          <button id="edit-button-add-operation" type="submit" class="w-24 h-12 bg-blue-300 border-none rounded-lg p-3">Editar</button>
+        </div>
+
+      </form>
+    </section>
+
     <!-- 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW CATEGORIES 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 -->
     <section id="view-categories" class="hidden w-72 min-h-[40rem] bg-gray-100 rounded-xl shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] p-2 mt-16  md:w-5/6">
       <h2 class="text-4xl font-medium pl-2 mt-3">Categorías</h2>
@@ -213,12 +266,12 @@
         <button id="add-categories" class="w-24 h-[42px] bg-blue-400 border-blue-300 rounded-lg">Agregar</button>
       </div>
 
-      <!-- ---------------- Categories will be added here ---------------- -->
-      <div  id="container-name-categories"></div>
+      <!-- ---------------- CATEGORIES WILL BE ADDED HERE ---------------- -->
+      <div id="container-name-categories"></div>
 
     </section>
 
-    <!-- ____________________________***** Edit Category Section *****____________________________ -->
+    <!-- ____________________________***** EDIT CATEGORY SECTION *****____________________________ -->
 
     <section id="edit-category-section" class="hidden w-72 h-[20rem] bg-gray-100 rounded-xl shadow-[1px_20px_16px_1px_rgb(0,0,0,0.3)] p-2 mt-4 md:w-5/6">
       <h2 class="text-4xl font-medium pl-2 mt-3">Editar Categoría</h2>

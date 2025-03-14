@@ -4,6 +4,25 @@ import features from "./features.js"
 const $ = element => document.querySelector(element);
 const $$ = element => document.querySelectorAll(element)
 
+/* ......ELEMENTS HTML FUNCIONALITY VIEW CATEGORIES ...... */
+const $containerNameCategories = $("#container-name-categories")//ELEMENT HTML ON SCREEN 
+const $inputnameCategories = $("#name-categories")
+const $buttonAddCategories = $("#add-categories")
+const $containerNewOperations = $("#container-new-operations")
+
+/* ...... ELEMENTS HTML ON SCREEN ...... */
+const $selectCategoriesNewOperation = $("#categories-new-operation");
+const $selectEditCategoriesOperation = $("#edit-categories-operation")
+
+
+/* ......ELEMENTS HTML EDIT ...... */
+const $editOperation = $("#edit-operation")
+const $formEditOperation = $("#form-edit-operation");
+
+/* ..................... FILTERS ..................... */
+const $filterCategories = $("#filter-categories")
+
+/* ................ GENERAL FUNCTIONS: SHOW/HIDE ................ */
 const showOrHideElement = (selectors) => {
   for (const selector of selectors) {
     selector.classList.toggle("hidden");
@@ -22,7 +41,7 @@ const showElement = (selectors) => {
   }
 };
 
-/* _________________ FUNCTIONALITIES OF BUTTONS WITH VIEWS _________________ */
+/* _________________ BUTTON FUNCIONALITY WITH VIEWS _________________ */
 
 /* ........... buttons header menu ........... */
 $("#button-hamburger-menu").addEventListener("click", () => {
@@ -82,17 +101,13 @@ $("#button-cancel-new-operation").addEventListener("click", (e) => {
   showElement([$("#operations-section"), $("#view-balance-home")])
 });
 
-
-
-const $filterCategories = $("#filter-categories")
-
-/* ......ELEMENTS HTML FUNCIONALITY VIEW CATEGORIES ...... */
-const $containerNameCategories = $("#container-name-categories")
-const $inputnameCategories = $("#name-categories")
-const $buttonAddCategories = $("#add-categories")
-const $containerNewOperations = $("#container-new-operations")
-
-
+/* ......  BUTTON functionality CANCEL EDIT OPERATION ...... */
+$("#edit-button-cancel-operation").addEventListener("click", (e) => {
+  e.preventDefault()
+  hideElement([$formEditOperation, $("#edit-operation")])
+  showElement([$("#view-balance-home"), $("#operations-section") ])
+  
+})
 
 /* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW BALANCE HOME 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
 /* ******************************** BALANCE ******************************* */
@@ -112,8 +127,8 @@ function calculateBalance() {//funtion for calculate de balance
    $("#profits-amount").textContent = `+$${totalProfits}`;
    $("#expenses-amount").textContent = `-$${totalExpenses}`;
    $("#total-amount").textContent = `$${total}`;
-   addEventEditDelete()
-}
+  }
+  addEventEditDelete()
 
 
 /* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW CATEGORIES 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
@@ -146,15 +161,19 @@ function addCategory () {
   features.arrayCategories(categoryObject)
   displayCategoriesFilters ()
   displayCategoriesNewOperation()
-  calculateBalance();
+  // calculateBalance();
 }
 
 /* ______________ EVENT ADD CATEGORY ______________ */
 $buttonAddCategories.addEventListener("click", addCategory)
 
+
 /* ................ DISPLAY ON SCREEN ................ */
+  
+/* -------- display Categories -------- */
 function displayCategories () {
   const category = features.readLocalStorage("categoria") 
+  $containerNameCategories.innerHTML =""
   for (const flor of category) {
     $containerNameCategories.innerHTML += ` 
     <div class="flex justify-around p-2">
@@ -167,15 +186,16 @@ function displayCategories () {
   }
 }
 
+/* -------- display Categories Filters -------- */
 function displayCategoriesFilters() {
+  $filterCategories.innerHTML = ""
   const category = features.readLocalStorage("categoria") 
   for (const flor of category) {
     $filterCategories.innerHTML += `<option>${flor.name}</option>`
   }
 }
 
-
-const $selectCategoriesNewOperation = $("#categories-new-operation");
+/* -------- display Categories new operation -------- */
 function displayCategoriesNewOperation() {
   $selectCategoriesNewOperation.innerHTML = ""
   const category = features.readLocalStorage("categoria"); 
@@ -183,6 +203,17 @@ function displayCategoriesNewOperation() {
     $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
   }
 }
+
+/* -------- display Categories edit operation -------- */
+function displayCategoriesEditOperation() {
+  $selectEditCategoriesOperation.innerHTML = ""
+  const category = features.readLocalStorage("categoria"); 
+  for (const flor of category) {
+    $selectEditCategoriesOperation.innerHTML += `<option>${flor.name}</option>`;
+  }
+  
+}
+
 
 /* ******************************** OPERATIONS ******************************** */
 
@@ -198,7 +229,7 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
     amount :Number(e.target[1].value),
     type : e.target[2].value,
     categories : e.target[3].value,
-    date : dayjs(e.target[4].value).format("DD-MM-YYYY"),
+    date : dayjs(e.target[4].value).format("DD/MM/YYYY"),
   }
   
   features.arrayDataOperations(newOperationObject);
@@ -234,32 +265,87 @@ function displayOperations() {
       </div>
     `;
   });
+
+  addEventEditDelete()
 }
 
 /* ......... edit - delete operations ......... */
-addEventEditDelete()
-
 function addEventEditDelete () {
   const $$arrayButonsEdit = $$(".button-edit")
   const $$arrayButonsDelete = $$(".button-delete")
 
- $$arrayButonsDelete.forEach(button => {
+  $$arrayButonsDelete.forEach(button => {
   
-  button.addEventListener("click", (e) => {
-   const arrayDeleteOperations = features.deleteOperation(e.target.id)
-   displayOperations(arrayDeleteOperations)
-   calculateBalance()
+    button.addEventListener("click", (e) => {
+      e.preventDefault()
+     const arrayDeleteOperations = features.deleteOperation(e.target.id)
+     displayOperations(arrayDeleteOperations)
+     calculateBalance()
+    })
+
   })
-})
+
+  $$arrayButonsEdit.forEach(button => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault()
+      // console.log("wwwwww")
+      showElement([$editOperation, $formEditOperation])
+      hideElement([$("#operations-section"), $("#view-balance-home")])
+      
+      const data = features.readLocalStorage("operations")
+      const sol = data.find(elemen => elemen.id === e.target.id)
+
+      $("#edit-description-operation").value = sol.description;
+      $("#edit-amount-operation").value = sol.amount;
+      $("#edit-type-operation").value = sol.type;
+      $selectEditCategoriesOperation.value = sol.categories;
+      $("#edit-date-operation").value = sol.date;
+    
+      $formEditOperation.id = sol.id
+    })
+    
+    calculateBalance()
+
+  })
 
 }
+
+/* ..................... FORM EDIT OPERATION ..................... */
+
+$formEditOperation.addEventListener("submit", (e) => { 
+  e.preventDefault()
+  hideElement([$formEditOperation, $("#edit-operation")])
+  showElement([$("#view-balance-home"), $("#operations-section") ])
+  const data = features.readLocalStorage("operations")
+
+  const sol = data.find(elemen => elemen.id === e.target.id)
+
+  const newData = {
+    // id : sol.id,
+    description : e.target[0].value,
+    amount :Number(e.target[1].value),
+    type : e.target[2].value,
+    categories : e.target[3].value,
+    // date : dayjs(e.target[4].value).format("MM/DD/YYYY"),
+    date : dayjs(e.target[4].value).format("DD/MM/YYYY")
+  }
+  
+  const modifiedData = features.editOperation(sol.id, newData)
+
+   // Optionally, clear the form fields after submission
+  displayOperations(modifiedData);
+  // e.target.reset();
+
+});
+
 
 window.onload = () => {
   const category = features.readLocalStorage("categoria") 
   features.arrayNewCategories = category
   displayCategories ()
   displayCategoriesFilters()
-  displayCategoriesNewOperation();
+  displayCategoriesEditOperation()
+  displayCategoriesNewOperation()
   displayOperations()
   calculateBalance()
   addEventEditDelete()

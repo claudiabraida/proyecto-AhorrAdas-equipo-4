@@ -2,8 +2,8 @@ const arrayNewCategories = []
 const dataOperations = []
 
 function readLocalStorage (key) {
-  const datos = JSON.parse(localStorage.getItem(key))
-  return datos ? datos : [];
+  const data = JSON.parse(localStorage.getItem(key))
+  return data ? data : [];
 }
 
 function saveLocalStorage (key, data) {
@@ -18,8 +18,8 @@ function arrayCategories (array) {
 
 function arrayDataOperations (array) {
   const cosa = readLocalStorage("operations")
-   cosa.push(array)
-   saveLocalStorage("operations", cosa)
+  cosa.push(array)
+  saveLocalStorage("operations", cosa)
 }
 
 
@@ -31,6 +31,15 @@ function deleteOperation (idOperation) {
   return filterDeleteOperation
 }
 
+function editOperation (idOperation, newData) {
+  const data = readLocalStorage("operations")
+  const searchedIndex = data.findIndex((operation) => operation.id == idOperation)
+  data.splice(searchedIndex, 1, {...newData, id: idOperation})
+  saveLocalStorage("operations", data)
+  return data
+}
+
+
 export default {
   readLocalStorage,
   saveLocalStorage,
@@ -38,5 +47,6 @@ export default {
   arrayNewCategories,
   arrayDataOperations,
   dataOperations,
-  deleteOperation
+  deleteOperation,
+  editOperation
 }
