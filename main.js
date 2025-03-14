@@ -161,6 +161,7 @@ function addCategory () {
   features.arrayCategories(categoryObject)
   displayCategoriesFilters ()
   displayCategoriesNewOperation()
+  displayOperations()
   // calculateBalance();
 }
 
