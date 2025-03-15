@@ -2,8 +2,8 @@ const arrayNewCategories = []
 const dataOperations = []
 
 function readLocalStorage (key) {
-  const datos = JSON.parse(localStorage.getItem(key))
-  return datos ? datos : [];
+  const data = JSON.parse(localStorage.getItem(key))
+  return data ? data : [];
 }
 
 function saveLocalStorage (key, data) {
@@ -18,8 +18,8 @@ function arrayCategories (array) {
 
 function arrayDataOperations (array) {
   const cosa = readLocalStorage("operations")
-   cosa.push(array)
-   saveLocalStorage("operations", cosa)
+  cosa.push(array)
+  saveLocalStorage("operations", cosa)
 }
 
 
@@ -30,6 +30,7 @@ function deleteOperation (idOperation) {
 
   return filterDeleteOperation
 }
+
 
 // New function to delete a category
 function deleteCategory(categoryId) {
@@ -47,7 +48,7 @@ function updateCategory(categoryId, newCategoryName) {
     return category;
   });
   saveLocalStorage("categoria", updatedCategories);
-}
+
 
 export default {
   readLocalStorage,
