@@ -82,20 +82,7 @@ $("#button-cancel-new-operation").addEventListener("click", (e) => {
   showElement([$("#operations-section"), $("#view-balance-home")]);
 });
 
-$("#edit-button-cancel-operation").addEventListener("click", (e) => {
-  e.preventDefault();
-  hideElement([$("#edit-operation")]);
-  showElement([$("#operations-section"), $("#view-balance-home")]);
-});
-
-$("#edit-button-add-operation").addEventListener("click", (e) => {
-  e.preventDefault();
-  hideElement([$("#edit-operation")]);
-  showElement([$("#operations-section"), $("#view-balance-home")]);
-});
-
 const $filterCategories = $("#filter-categories");
-const $formEditOperation = $("#form-edit-operation")
 
 /* ......ELEMENTS HTML FUNCIONALITY VIEW CATEGORIES ...... */
 const $containerNameCategories = $("#container-name-categories");
@@ -121,8 +108,7 @@ function calculateBalance() { //function for calculate the balance
   $("#profits-amount").textContent = `+$${totalProfits}`;
   $("#expenses-amount").textContent = `-$${totalExpenses}`;
   $("#total-amount").textContent = `$${total}`;
-
-  addEventEditDeleteOperation();
+  addEventEditDelete();
 }
 
 /* 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 VIEW CATEGORIES 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥 */
@@ -155,7 +141,7 @@ function addCategory() {
   features.arrayCategories(categoryObject);
   displayCategoriesFilters();
   displayCategoriesNewOperation();
-  // calculateBalance();
+  calculateBalance();
 }
 
 /* ______________ EVENT ADD CATEGORY ______________ */
@@ -176,7 +162,7 @@ function displayCategories() {
     </div>`;
   }
   console.log("Categories displayed:", category); // Debugging log
-  addEventEditDeleteOperation(); // Reattach event listeners after displaying categories
+  addEventEditDelete(); // Reattach event listeners after displaying categories
 }
 
 function displayCategoriesFilters() {
@@ -223,8 +209,8 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
 
 /* show in operations section */
 function displayOperations() {
-  $containerNewOperations.innerHTML = "";
   const operations = features.readLocalStorage("operations") || [];
+  $containerNewOperations.innerHTML = "";
 
   operations.forEach(operation => {
     $containerNewOperations.innerHTML += `
@@ -242,86 +228,26 @@ function displayOperations() {
       </div>
     `;
   });
-  addEventEditDeleteOperation();
 }
 
+/* ......... edit - delete operations ......... */
+addEventEditDelete();
 
+function addEventEditDelete() {
+  const $$arrayButonsEdit = $$(".button-edit");
+  const $$arrayButonsDelete = $$(".button-delete");
 
-function addEventEditDeleteOperation () {
-  const $$arrayButonsEdit = $$(".button-edit")
-  const $$arrayButonsDelete = $$(".button-delete")
-  
-  /* ......... delete operations ......... */
   $$arrayButonsDelete.forEach(button => {
-    
     button.addEventListener("click", (e) => {
-      e.preventDefault()
-      const arrayDeleteOperations = features.deleteOperation(e.target.id)
-      displayOperations(arrayDeleteOperations)
-    })
-    
-  })
-  // calculateBalance()
-  
-  /* ......... edit - delete operations ......... */
-  $$arrayButonsEdit.forEach(button => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault()
-    
-      showElement([$("#edit-operation")])
-      hideElement([$("#view-balance-home")])
-      
-      const data = features.readLocalStorage("operations")
-      const sol = data.find(elemen => elemen.id === e.target.id)
+      const arrayDeleteOperations = features.deleteOperation(e.target.id);
+      displayOperations(arrayDeleteOperations);
+      calculateBalance();
+    });
+  });
 
-      $("#edit-description-operation").value = sol.description;
-      $("#edit-amount-operation").value = sol.amount;
-      $("#edit-type-operation").value = sol.type;
-      $selectCategoriesNewOperation.value = sol.categories;
-      $("#edit-date-operation").value = sol.date;
-    
-      $formEditOperation.id = sol.id
-    })
-    
-    
-  })
-
-}
-
-/* ..................... FORM EDIT OPERATION ..................... */
-
-$formEditOperation.addEventListener("submit", (e) => { 
-  e.preventDefault()
-  // hideElement([$formEditOperation, $("#edit-operation")])
-  // showElement([$("#view-balance-home"), $("#operations-section") ])
-  const data = features.readLocalStorage("operations")
-
-  const sol = data.find(elemen => elemen.id === e.target.id)
-
-  const newData = {
-    // id : sol.id,
-    description : e.target[0].value,
-    amount :Number(e.target[1].value),
-    type : e.target[2].value,
-    categories : e.target[3].value,
-    // date : dayjs(e.target[4].value).format("MM/DD/YYYY"),
-    date : dayjs(e.target[4].value).format("DD/MM/YYYY")
-  }
-  
-  const modifiedData = features.editOperation(sol.id, newData)
-
-  // Optionally, clear the form fields after submission
-  e.target.reset();
-  displayOperations(modifiedData);
-
-});
-
-function addEventEditDeleteCategory () {
   const $$arrayCategoryButtonsDelete = $$(".text-red-700");
-
   $$arrayCategoryButtonsDelete.forEach(button => {
     button.addEventListener("click", (e) => {
-
       const categoryId = e.target.parentElement.id;
       const categoryElement = document.getElementById(categoryId);
       if (categoryElement) {
@@ -332,7 +258,6 @@ function addEventEditDeleteCategory () {
   });
  
   const $$arrayCategoryButtonsEdit = $$(".text-blue-700");
-
   $$arrayCategoryButtonsEdit.forEach(button => {
     button.addEventListener("click", (e) => {
       const categoryId = e.target.parentElement.id; 
@@ -349,8 +274,6 @@ function addEventEditDeleteCategory () {
     });
   });
 
-
-   
   $("#save-category").addEventListener("click", () => {
     const categoryId = $("#save-category").getAttribute("data-category-id");
     const newCategoryName = $("#edit-category-name").value.trim();
@@ -364,8 +287,8 @@ function addEventEditDeleteCategory () {
   });
 
   $("#cancel-edit").addEventListener("click", () => {
-  $("#edit-category-section").classList.add("hidden");
-  $("#view-categories").classList.remove("hidden"); 
+    $("#edit-category-section").classList.add("hidden");
+    $("#view-categories").classList.remove("hidden"); 
   });
 }
 
@@ -377,6 +300,5 @@ window.onload = () => {
   displayCategoriesNewOperation();
   displayOperations();
   calculateBalance();
-  addEventEditDeleteOperation();
-  addEventEditDeleteCategory()
+  addEventEditDelete();
 };

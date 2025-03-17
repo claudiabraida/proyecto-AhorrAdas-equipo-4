@@ -31,16 +31,6 @@ function deleteOperation (idOperation) {
   return filterDeleteOperation
 }
 
-function editOperation (idOperation, newData) {
-  const data = readLocalStorage("operations")
-  const searchedIndex = data.findIndex((operation) => operation.id == idOperation)
-  data.splice(searchedIndex, 1, {...newData, id: idOperation})
-  saveLocalStorage("operations", data)
-  return data
-}
-
-
-
 // New function to delete a category
 function deleteCategory(categoryId) {
   const categories = readLocalStorage("categoria");
@@ -67,7 +57,6 @@ export default {
   arrayDataOperations,
   dataOperations,
   deleteOperation,
-  editOperation,
   deleteCategory,
   updateCategory
 }
