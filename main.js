@@ -241,7 +241,7 @@ function displayOperations() {
         <p>Date: ${operation.date}</p>
 
         <div class = "flex gap-9">
-         <button id ="${operation.id}"class=" button-edit text-blue-700 rounded-xl border border-blue-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-blue-100 mt-3 p-2">Editar</button>
+         <button id ="${operation.id}"class=" button-edit text-blue-701 rounded-xl border border-blue-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-blue-100 mt-3 p-2">Editar</button>
          <button id ="${operation.id}"class=" button-delete text-red-700 rounded-xl border border-red-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-red-100 mt-3 p-2">Eliminar</button>
         </div>
       </div>
