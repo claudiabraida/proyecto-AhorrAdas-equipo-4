@@ -189,6 +189,7 @@ function displayCategoriesNewOperation() {
   for (const flor of category) {
     $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
   }
+  
 }
 
 const $selectEditCategoriesOperation = $("#edit-categories-operation");
@@ -198,6 +199,7 @@ function displayEditCategoriesOperation() {
   for (const flor of category) {
     $selectEditCategoriesOperation.innerHTML += `<option>${flor.name}</option>`;
   }
+
 }
 
 /* ******************************** OPERATIONS ******************************** */
@@ -219,12 +221,14 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
   features.arrayDataOperations(newOperationObject);
   console.log("New operation added:", newOperationObject); // Debugging log
 
-  displayOperations();
   calculateBalance();
+  displayOperations();
 
   // Optionally, clear the form fields after submission
   e.target.reset();
 });
+
+
 
 /* show in operations section */
 function displayOperations() {
@@ -246,18 +250,21 @@ function displayOperations() {
         </div>
       </div>
     `;
+    
   });
+  addEventEditDelete()
+
 }
 
 /* ......... edit - delete operations ......... */
-addEventEditDelete();
+// addEventEditDelete();
 
 function addEventEditDelete() {
-  const $$arrayButonsEdit = $$(".button-edit")
- const $$arrayButonsDelete = $$(".button-delete")
+  const $$arrayButonsEditOperation = $$(".button-edit")
+ const $$arrayButonsDeleteOperation = $$(".button-delete")
    
   /* ......... delete operations ......... */
-  $$arrayButonsDelete.forEach(button => {
+  $$arrayButonsDeleteOperation.forEach(button => {
      
     button.addEventListener("click", (e) => {
       e.preventDefault()
@@ -268,12 +275,13 @@ function addEventEditDelete() {
   })
 
   /* ......... edit operations ......... */
-  $$arrayButonsEdit.forEach(button => {
+  $$arrayButonsEditOperation.forEach(button => {
   button.addEventListener("click", (e) => {
    e.preventDefault()
     
       showElement([$("#edit-operation")])
       hideElement([$("#view-balance-home")])
+
       
     const data = features.readLocalStorage("operations")
     const sol = data.find(elemen => elemen.id === e.target.id)
@@ -284,11 +292,12 @@ function addEventEditDelete() {
     $selectCategoriesNewOperation.value = sol.categories;
     $("#edit-date-operation").value = sol.date;
     
-    // $formEditOperation.id = sol.id
+    $formEditOperation.id = sol.id
   })
     
   })
 
+  /* ......... delete category ......... */
   const $$arrayCategoryButtonsDelete = $$(".text-red-700");
   $$arrayCategoryButtonsDelete.forEach(button => {
     button.addEventListener("click", (e) => {
@@ -301,6 +310,8 @@ function addEventEditDelete() {
     });
   });
  
+
+  /* ......... edit category ......... */
   const $$arrayCategoryButtonsEdit = $$(".text-blue-700");
   $$arrayCategoryButtonsEdit.forEach(button => {
     button.addEventListener("click", (e) => {
