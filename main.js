@@ -82,6 +82,14 @@ $("#button-cancel-new-operation").addEventListener("click", (e) => {
   showElement([$("#operations-section"), $("#view-balance-home")]);
 });
 
+
+$("#edit-button-add-operation").addEventListener("click", (e) => {
+  e.preventDefault();
+  hideElement([$("#edit-operation")]);
+  showElement([$("#operations-section"), $("#view-balance-home")]);
+});
+
+const $formEditOperation = $("form-edit-operation");
 const $filterCategories = $("#filter-categories");
 
 /* ......ELEMENTS HTML FUNCIONALITY VIEW CATEGORIES ...... */
@@ -141,6 +149,7 @@ function addCategory() {
   features.arrayCategories(categoryObject);
   displayCategoriesFilters();
   displayCategoriesNewOperation();
+  displayEditCategoriesOperation();
   calculateBalance();
 }
 
@@ -149,8 +158,8 @@ $buttonAddCategories.addEventListener("click", addCategory);
 
 /* ................ DISPLAY ON SCREEN ................ */
 function displayCategories() {
-  const category = features.readLocalStorage("categoria");
   $containerNameCategories.innerHTML = ""; // Clear previous categories
+  const category = features.readLocalStorage("categoria");
   for (const flor of category) {
     $containerNameCategories.innerHTML += ` 
     <div class="flex justify-around p-2" id="${flor.id}">
@@ -166,6 +175,7 @@ function displayCategories() {
 }
 
 function displayCategoriesFilters() {
+  $filterCategories.innerHTML = ""
   const category = features.readLocalStorage("categoria");
   for (const flor of category) {
     $filterCategories.innerHTML += `<option>${flor.name}</option>`;
@@ -178,6 +188,15 @@ function displayCategoriesNewOperation() {
   const category = features.readLocalStorage("categoria");
   for (const flor of category) {
     $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
+  }
+}
+
+const $selectEditCategoriesOperation = $("#edit-categories-operation");
+function displayEditCategoriesOperation() {
+  $selectEditCategoriesOperation.innerHTML = "";
+  const category = features.readLocalStorage("categoria");
+  for (const flor of category) {
+    $selectEditCategoriesOperation.innerHTML += `<option>${flor.name}</option>`;
   }
 }
 
@@ -209,8 +228,8 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
 
 /* show in operations section */
 function displayOperations() {
-  const operations = features.readLocalStorage("operations") || [];
   $containerNewOperations.innerHTML = "";
+  const operations = features.readLocalStorage("operations") || [];
 
   operations.forEach(operation => {
     $containerNewOperations.innerHTML += `
@@ -234,16 +253,41 @@ function displayOperations() {
 addEventEditDelete();
 
 function addEventEditDelete() {
-  const $$arrayButonsEdit = $$(".button-edit");
-  const $$arrayButonsDelete = $$(".button-delete");
-
+  const $$arrayButonsEdit = $$(".button-edit")
+ const $$arrayButonsDelete = $$(".button-delete")
+   
+  /* ......... delete operations ......... */
   $$arrayButonsDelete.forEach(button => {
+     
     button.addEventListener("click", (e) => {
-      const arrayDeleteOperations = features.deleteOperation(e.target.id);
-      displayOperations(arrayDeleteOperations);
-      calculateBalance();
-    });
-  });
+      e.preventDefault()
+      const arrayDeleteOperations = features.deleteOperation(e.target.id)
+      displayOperations(arrayDeleteOperations)
+    })
+
+  })
+
+  /* ......... edit operations ......... */
+  $$arrayButonsEdit.forEach(button => {
+  button.addEventListener("click", (e) => {
+   e.preventDefault()
+    
+      showElement([$("#edit-operation")])
+      hideElement([$("#view-balance-home")])
+      
+    const data = features.readLocalStorage("operations")
+    const sol = data.find(elemen => elemen.id === e.target.id)
+
+    $("#edit-description-operation").value = sol.description;
+    $("#edit-amount-operation").value = sol.amount;
+    $("#edit-type-operation").value = sol.type;
+    $selectCategoriesNewOperation.value = sol.categories;
+    $("#edit-date-operation").value = sol.date;
+    
+    // $formEditOperation.id = sol.id
+  })
+    
+  })
 
   const $$arrayCategoryButtonsDelete = $$(".text-red-700");
   $$arrayCategoryButtonsDelete.forEach(button => {
@@ -298,6 +342,7 @@ window.onload = () => {
   displayCategories();
   displayCategoriesFilters();
   displayCategoriesNewOperation();
+  displayEditCategoriesOperation();
   displayOperations();
   calculateBalance();
   addEventEditDelete();
