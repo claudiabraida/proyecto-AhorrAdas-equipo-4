@@ -82,6 +82,12 @@ $("#button-cancel-new-operation").addEventListener("click", (e) => {
   showElement([$("#operations-section"), $("#view-balance-home")]);
 });
 
+$("#edit-button-cancel-operation").addEventListener("click", (e) => {
+  e.preventDefault()
+  hideElement([$formEditOperation, $("#edit-operation")])
+  showElement([$("#view-balance-home"), $("#operations-section") ])
+  
+})
 
 $("#edit-button-add-operation").addEventListener("click", (e) => {
   e.preventDefault();
@@ -89,8 +95,17 @@ $("#edit-button-add-operation").addEventListener("click", (e) => {
   showElement([$("#operations-section"), $("#view-balance-home")]);
 });
 
-const $formEditOperation = $("form-edit-operation");
+const $formEditOperation = $("#form-edit-operation");
+const $inputEditDescriptionOperation = $("#edit-description-operation")
+const $inputEditAmountOperation =$("#edit-amount-operation")
+const $inputEditTypeOperation =$("#edit-type-operation")
+const $inputEditDateOperation = $("#edit-date-operation") 
+
 const $filterCategories = $("#filter-categories");
+const $selectCategoriesNewOperation = $("#categories-new-operation");
+const $selectEditCategoriesOperation = $("#edit-categories-operation");
+
+
 
 /* ......ELEMENTS HTML FUNCIONALITY VIEW CATEGORIES ...... */
 const $containerNameCategories = $("#container-name-categories");
@@ -116,6 +131,7 @@ function calculateBalance() { //function for calculate the balance
   $("#profits-amount").textContent = `+$${totalProfits}`;
   $("#expenses-amount").textContent = `-$${totalExpenses}`;
   $("#total-amount").textContent = `$${total}`;
+  displayOperations()
   addEventEditDelete();
 }
 
@@ -149,7 +165,6 @@ function addCategory() {
   features.arrayCategories(categoryObject);
   displayCategoriesFilters();
   displayCategoriesNewOperation();
-  displayEditCategoriesOperation();
   calculateBalance();
 }
 
@@ -182,17 +197,17 @@ function displayCategoriesFilters() {
   }
 }
 
-const $selectCategoriesNewOperation = $("#categories-new-operation");
+
 function displayCategoriesNewOperation() {
   $selectCategoriesNewOperation.innerHTML = "";
   const category = features.readLocalStorage("categoria");
   for (const flor of category) {
     $selectCategoriesNewOperation.innerHTML += `<option>${flor.name}</option>`;
   }
-  
+
 }
 
-const $selectEditCategoriesOperation = $("#edit-categories-operation");
+
 function displayEditCategoriesOperation() {
   $selectEditCategoriesOperation.innerHTML = "";
   const category = features.readLocalStorage("categoria");
@@ -229,7 +244,35 @@ $("#form-create-new-operation").addEventListener("submit", (e) => {
 });
 
 
+/* ..................... FORM EDIT OPERATION ..................... */
 
+$formEditOperation.addEventListener("submit", (e) => { 
+  e.preventDefault()
+  const data = features.readLocalStorage("operations")
+  
+  showElement([$("#view-balance-home"), $("#operations-section") ])
+  hideElement([$formEditOperation, $("#edit-operation")])
+
+  const sol = data.find(elemen => elemen.id === e.target.id)
+
+  const newData = {
+    // id : sol.id,
+    description : e.target[0].value,
+    amount :Number(e.target[1].value),
+    type : e.target[2].value,
+    categories : e.target[3].value,
+    date : dayjs(e.target[4].value).format("DD/MM/YYYY")
+  }
+  
+  const modifiedData = features.editOperation(sol.id, newData)
+
+   // Optionally, clear the form fields after submission
+  displayOperations(modifiedData);
+  
+  addEventEditDelete()
+  // e.target.reset();
+
+});
 /* show in operations section */
 function displayOperations() {
   $containerNewOperations.innerHTML = "";
@@ -237,24 +280,27 @@ function displayOperations() {
 
   operations.forEach(operation => {
     $containerNewOperations.innerHTML += `
-      <div class="rounded-lg bg-[#f6f7fa] shadow-[-3px_-3px_20px_3px_rgb(0,0,0,0.4)] p-9 m-4 operation">
-        <p>Description: ${operation.description}</p>
-        <p>Amount: ${operation.amount}</p>
-        <p>Type: ${operation.type}</p>
-        <p>Categories: ${operation.categories}</p>
-        <p>Date: ${operation.date}</p>
+    <div class="rounded-lg bg-[#f6f7fa] shadow-[-3px_-3px_20px_3px_rgb(0,0,0,0.4)] p-9 m-4 operation">
+      <p>Description: ${operation.description}</p>
+      <p>Amount: ${operation.amount}</p>
+      <p>Type: ${operation.type}</p>
+      <p>Categories: ${operation.categories}</p>
+      <p>Date: ${operation.date}</p>
 
-        <div class = "flex gap-9">
-         <button id ="${operation.id}"class=" button-edit text-blue-701 rounded-xl border border-blue-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-blue-100 mt-3 p-2">Editar</button>
-         <button id ="${operation.id}"class=" button-delete text-red-700 rounded-xl border border-red-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-red-100 mt-3 p-2">Eliminar</button>
-        </div>
+      <div class = "flex gap-9">
+        <button id ="${operation.id}"class=" button-edit text-blue-700 rounded-xl border border-blue-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-blue-100 mt-3 p-2">Editar</button>
+        <button id ="${operation.id}"class=" button-delete text-red-700 rounded-xl border border-red-300 shadow-[0px_-1px_4px_3px_rgb(0,0,0,0.2)] bg-red-100 mt-3 p-2">Eliminar</button>
       </div>
-    `;
+    </div>`;
     
   });
+
   addEventEditDelete()
+  
 
 }
+
+
 
 /* ......... edit - delete operations ......... */
 // addEventEditDelete();
@@ -270,34 +316,34 @@ function addEventEditDelete() {
       e.preventDefault()
       const arrayDeleteOperations = features.deleteOperation(e.target.id)
       displayOperations(arrayDeleteOperations)
+      
     })
 
   })
 
   /* ......... edit operations ......... */
   $$arrayButonsEditOperation.forEach(button => {
-  button.addEventListener("click", (e) => {
+   button.addEventListener("click", (e) => {
    e.preventDefault()
     
       showElement([$("#edit-operation")])
       hideElement([$("#view-balance-home")])
-
       
     const data = features.readLocalStorage("operations")
     const sol = data.find(elemen => elemen.id === e.target.id)
 
-    $("#edit-description-operation").value = sol.description;
-    $("#edit-amount-operation").value = sol.amount;
-    $("#edit-type-operation").value = sol.type;
-    $selectCategoriesNewOperation.value = sol.categories;
-    $("#edit-date-operation").value = sol.date;
+    $inputEditDescriptionOperation.value = sol.description;
+    $inputEditAmountOperation.value = sol.amount;
+    $inputEditTypeOperation.value = sol.type;
+    $selectEditCategoriesOperation.value = sol.categories;
+    $inputEditDateOperation.value = sol.date;
     
     $formEditOperation.id = sol.id
-  })
     
   })
+ 
+  })
 
-  /* ......... delete category ......... */
   const $$arrayCategoryButtonsDelete = $$(".text-red-700");
   $$arrayCategoryButtonsDelete.forEach(button => {
     button.addEventListener("click", (e) => {
@@ -310,8 +356,6 @@ function addEventEditDelete() {
     });
   });
  
-
-  /* ......... edit category ......... */
   const $$arrayCategoryButtonsEdit = $$(".text-blue-700");
   $$arrayCategoryButtonsEdit.forEach(button => {
     button.addEventListener("click", (e) => {
